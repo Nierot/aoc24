@@ -15,7 +15,7 @@ func main() {
 	timeTest := time.Now()
 	day.PartOne()
 	timePartOne := time.Now()
-	// day.PartTwo()
+	day.PartTwo()
 	timePartTwo := time.Now()
 
 	log.Println("---------")

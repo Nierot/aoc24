@@ -21,18 +21,23 @@ func (d DayThree) GetInput() interface{} {
 func (d DayThree) PartOne() {
 	data := d.GetInput()
 
-	ans := d.Run(data.(string))
+	ans := d.Run(data.(string), false)
 
 	log.Println("part one: ", strconv.Itoa(ans))
 }
 
 // PartTwo implements Solution.
 func (d DayThree) PartTwo() {
-	panic("unimplemented")
+	data := d.GetInput()
+
+	ans := d.Run(data.(string), true)
+
+	log.Println("part two: ", strconv.Itoa(ans))
 }
 
-func (d DayThree) Run(ins string) int {
+func (d DayThree) Run(ins string, enableDo bool) int {
 	ans := 0
+	enabled := true
 
 	for idx, char := range ins {
 		if char == 'm' {
@@ -44,12 +49,35 @@ func (d DayThree) Run(ins string) int {
 								if ins[endIdx-1] == ')' {
 									if fst, err := strconv.Atoi(firstNumber); err == nil {
 										if snd, err := strconv.Atoi(secondNumber); err == nil {
-											ans += fst * snd
+											if enabled {
+												ans += fst * snd
+											}
 										}
 									}
 								}
 							}
 						} 
+					}
+				}
+			}
+		}
+		if enableDo {
+			if char == 'd' {
+				if ins[idx + 1] == 'o' {
+					if ins[idx + 2] == '(' {
+						if ins[idx + 3] == ')' {
+							enabled = true
+						}
+					} else if ins[idx + 2] == 'n' {
+						if ins[idx + 3] == '\'' {
+							if ins[idx + 4] == 't' {
+								if ins[idx + 5] == '(' {
+									if ins[idx + 6] == ')' {
+										enabled = false
+									}
+								}
+							}
+						}
 					}
 				}
 			}
@@ -81,9 +109,10 @@ func (d DayThree) FindNumber(ins string, idx int) (string, int) {
 
 // Test implements Solution.
 func (d DayThree) Test() {
-	exampleData := "xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))"
+	// exampleData := "xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))"
+	exampleData := "xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))"
 
-	ans := d.Run(exampleData)
+	ans := d.Run(exampleData, true)
 
 	log.Println("test: ", strconv.Itoa(ans))
 }
