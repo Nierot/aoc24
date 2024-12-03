@@ -12,9 +12,8 @@ type Solution interface {
 	Test() 
 	PartTwo() 
 	GetInput() interface{}
+	GetDay() int
 }
-
-const EOF = "done;"
 
 func ReadFileByLine(day int, c chan string) {
 	file, err := os.Open("./inputs/" + strconv.Itoa(day))
@@ -31,7 +30,7 @@ func ReadFileByLine(day int, c chan string) {
 		c <- scanner.Text()
 	}
 
-	c <- EOF
+	close(c)
 
 	if err := scanner.Err(); err != nil {
 		log.Fatal(err)

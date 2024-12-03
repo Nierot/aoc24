@@ -19,6 +19,8 @@ func (d DayOne) PartOne() {
 	log.Println("part one: ", strconv.Itoa(total))
 }
 
+func (d DayOne) GetDay() int { return 1 }
+
 // PartTwo implements Solution.
 func (d DayOne) PartTwo() {
 	input := d.GetInput()
@@ -104,9 +106,9 @@ func (d DayOne) GetInput() [][]int {
 	go ReadFileByLine(1, c)
 
 	for {
-		line := <- c
+		line, more := <- c
 
-		if line == EOF {
+		if !more {
 			break
 		}
 
