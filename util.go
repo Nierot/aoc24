@@ -36,3 +36,11 @@ func ReadFileByLine(day int, c chan string) {
 		log.Fatal(err)
 	}
 }
+
+func ReadFileInOneLine(day int) string {
+	c := make(chan string)
+
+	go ReadFileByLine(day, c)
+
+	return <- c
+}
